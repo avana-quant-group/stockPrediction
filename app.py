@@ -4,7 +4,9 @@ import yfinance as yf
 import mplfinance as mpf 
 from io import BytesIO
 import os
-TICKER = "AAPL"
+import lstm
+import sma
+# TICKER = "AAPL"
 
 app =Flask(__name__)
 
@@ -17,13 +19,15 @@ def index1():
     return render_template('index.html')
 
 @app.route('/sma')
-def sma():
-    df=pd.read_csv(TICKER+'.csv')
-    PEOPLE_FOLDER = os.path.join('static', 'photo')
-    print(os.getcwd() )
-    PEOPLE_FOLDER=PEOPLE_FOLDER+"/"+"fi.png"
-    ll=os.getcwd()
-    return render_template('sma.html',user_image=PEOPLE_FOLDER,l =ll)
+def sma1():
+    # df=pd.read_csv(TICKER+'.csv')
+    # PEOPLE_FOLDER = os.path.join('static', 'photo')
+    # print(os.getcwd() )
+    # PEOPLE_FOLDER=PEOPLE_FOLDER+"/"+"chart.png"
+    # # ll=os.getcwd()
+    pic=sma.chart()
+    pic.append(lstm.predict())
+    return render_template('sma.html', pic=pic)
 
 @app.route("/download")
 def down():

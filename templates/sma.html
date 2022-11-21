@@ -1,1 +1,38 @@
-{% extends 'base.html' %} {% block title %}SMA {% endblock %} {% block body %}Home <img src="{{ user_image }}" alt="User Image"> {% endblock %}
+{% extends 'base.html' %}
+{% block title %}SMA {% endblock %}
+{% block body %}
+<div>
+    <p>
+        Simple chart
+        <br>
+        <img src="{{ pic[4] }}" alt="User Image">
+    </p>
+    <p>
+        high and low Stock performance chart
+        <br>
+        <img src="{{ pic[1] }}" alt="User Image">
+    </p>
+      <p>
+        Stock chart with volume
+        <br>
+        <img src="{{ pic[0] }}" alt="User Image">
+    </p>
+     <p>
+        Simple moving average chart
+        <br>
+        <img src="{{ pic[3] }}" alt="User Image">
+    </p>
+     <p>
+        Simple moving average chart with graph
+        <br>
+        <img src="{{ pic[2] }}" alt="User Image">
+    </p>
+    <p>
+       Lstm Prediction
+        <br>
+        <img src="{{ pic[5] }}" alt="User Image">
+    </p>
+
+</div>
+
+{% endblock %}
