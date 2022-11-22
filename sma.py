@@ -7,8 +7,9 @@ matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 
 
-def chart():
-    df = pd.read_csv("aapl.csv")
+def chart(ticker):
+    csv = "static/stock_data/"+ticker+".csv"
+    df = pd.read_csv(csv)
     df['Date'] = pd.to_datetime(df['Date'])
     df.index = pd.DatetimeIndex(df['Date'])
 

@@ -13,8 +13,9 @@ pic_file = os.path.join('static', 'photo')
 picture = ""
 
 
-def train():
-    stock_data = pd.read_csv("AAPL.csv")
+def train(ticker):
+    csv = "static/stock_data/" + ticker + ".csv"
+    stock_data = pd.read_csv(csv)
     stock_data['Date'] = pd.to_datetime(stock_data['Date'])
     stock_data.index = pd.DatetimeIndex(stock_data['Date'])
     close_prices = stock_data['Close']
@@ -51,7 +52,8 @@ def train():
     model.add(layers.Dense(1))
     model.compile(optimizer='adam', loss='mean_squared_error')
     model.fit(x_train, y_train, batch_size=1, epochs=3)
-    model.save("AAPL.h5")
+    file = "static/models/" + ticker + ".h5"
+    model.save(file)
     predictions = model.predict(x_test)
     predictions = scaler.inverse_transform(predictions)
     rmse = np.sqrt(np.mean(predictions - y_test) ** 2)
@@ -72,9 +74,11 @@ def train():
     return picture
 
 
-def predict():
-    model = tf.keras.models.load_model('AAPL.h5')
-    stock_data = pd.read_csv("MSFT.csv")
+def predict(ticker):
+    model = "static/models/" + ticker + ".h5"
+    csv = "static/stock_data/" + ticker + ".csv"
+    model = tf.keras.models.load_model(model)
+    stock_data = pd.read_csv(csv)
     stock_data['Date'] = pd.to_datetime(stock_data['Date'])
     stock_data.index = pd.DatetimeIndex(stock_data['Date'])
     close_prices = stock_data['Close']

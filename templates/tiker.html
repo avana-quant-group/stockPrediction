@@ -1,15 +1,26 @@
-{% extends 'base.html' %}
-{% block title %}Name {% endblock %}
-{% block body %}
-  <div align="center">
-            <table>
-                <h1>
-                <!--Displaying the converted table-->
-                     {% for table in tables %}
-                    <h2>{{titles[loop.index]}}</h2>
-                    {{ table|safe }}
-                    {% endfor %}
-                </h1>
-            </table>
-        </div>
+{% extends 'base.html' %} {% block head %}
+
+<!-- <link rel="stylesheet" href="{{url_for('static',filename='css/table.css')}}">  -->
+<link rel="stylesheet" href="{{url_for('static',filename='d/datatables.min.css')}}"> {% endblock %} {% block title %}Name {% endblock %} {% block body %}
+<div align="center">
+    <!-- <table>
+                <h1> -->
+    <!--Displaying the converted table-->
+    {% for table in tables %}
+
+    <h2>{{titles[loop.index]}}</h2>
+    <div class="table-responsive">
+
+        {{ table|safe }} {% endfor %}
+    </div>
+    <!-- </h1>
+            </table> -->
+</div>
+<script type="text/javascript" src="{{url_for('static',filename='d/datatables.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        $('.dataframe').DataTable();
+        $('.dataframe').addClass('table table-bordered')
+    });
+</script>
 {% endblock %}
