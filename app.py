@@ -8,33 +8,40 @@ import mplfinance as mpf
 from io import BytesIO
 import os
 import lstm
-import sma
-from dotenv import load_dotenv
+import sma ,find
 
-load_dotenv()
 
-TICKER = "AAPL"
+
 
 app = Flask(__name__)
 
 def getticker():
     global TICKER
-    TICKER = os.getenv("ticker")
+    f=open(".env","r")
+    fw=str(f.read())
+    f.close
+    TICKER = fw
+    print("new ticker is"+TICKER)
+    return TICKER
+
 
 def updateticker(ticker):
-    cmd = "dotenv set ticker " + ticker
-    os.system(cmd)
-    # os.system("dotenv set ticker" + ticker)
-    getticker()
+
+    file1 = open(".env", "w") 
+    s = ticker
+    file1.write(s)
+    file1.close()
+
+
 
 
 class NameForm(FlaskForm):
-    name = StringField("What is your Name", validators=[DataRequired()])
+    name = StringField("Enter the stock you want to download", validators=[DataRequired()])
     submit = SubmitField("submit")
 
 
 class NameForm1(FlaskForm):
-    name = StringField("Enter stock Ticker", validators=[DataRequired()])
+    name = StringField("Enter stock Ticker you want to predict", validators=[DataRequired()])
     submit = SubmitField("submit")
 
 
@@ -66,7 +73,7 @@ def index2():
         # global TICKER
         TICKE = name.upper()
         updateticker(TICKE)
-        print(TICKE)
+        # print(TICKE)
         form.name.data = ''
         return redirect(url_for("sma1"))
         # flash("Form Submitted Successfully!")
@@ -83,8 +90,11 @@ def faq():
 
 @app.route('/sma')
 def sma1():
-    pic = sma.chart(TICKER)
-    pic.append(lstm.predict(TICKER))
+    TICKE = getticker()
+    find.findfile(TICKE)
+    pic = sma.chart(TICKE)
+    find.findfileh5(TICKE)
+    pic.append(lstm.predict(TICKE))
     return render_template('sma.html', pic=pic)
 
 
@@ -125,4 +135,4 @@ if __name__ == "__main__":
     SECRET_KEY = os.urandom(32)
     app.config['SECRET_KEY'] = SECRET_KEY
     app.run(debug=True)
-    ticker()
+    getticker()
